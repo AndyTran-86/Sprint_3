@@ -78,7 +78,23 @@ public class brädspel extends JFrame {
                     int senasteKolumn = j;
                     //lägger till actionListener till knapparna
                     knapp.addActionListener(e -> {
-                        System.out.println("Knapp nummer " + nr + " är på plats " + senasteRad + ", " + senasteKolumn );
+                        //System.out.println("Knapp nummer " + nr + " är på plats " + senasteRad + ", " + senasteKolumn );
+
+                        //loopar och ser ifall den 0 knappen är bredvid den tryckta knappen
+                        if ((senasteRad == nollRad - 1 && senasteKolumn == nollKolumn) ||
+                                (senasteRad == nollRad + 1 && senasteKolumn == nollKolumn) ||
+                                (senasteRad == nollRad && senasteKolumn == nollKolumn - 1) ||
+                                (senasteRad == nollRad && senasteKolumn == nollKolumn + 1)) {
+
+                            knappar[nollRad][nollKolumn].setText(knapp.getText());
+                            knappar[nollRad][nollKolumn].setEnabled(true);
+
+                            knapp.setText(null);
+                            knapp.setEnabled(false);
+
+                            nollRad = senasteRad;
+                            nollKolumn = senasteKolumn;
+                        }
                     });
 
                     add(knapp);
