@@ -89,7 +89,7 @@ public class brädspel extends JFrame {
                             knappar[nollRad][nollKolumn].setText(knapp.getText());
                             knappar[nollRad][nollKolumn].setEnabled(true);
 
-                            knapp.setText(null);
+                            knapp.setText("");
                             knapp.setEnabled(false);
 
                             nollRad = senasteRad;
@@ -101,6 +101,27 @@ public class brädspel extends JFrame {
                 }
             }
         }
+
+
+        //metod för att kontrollera vinst
+        private void kontrolleraVinst(){
+            int vinstNummer = 1;
+
+            for (int i = 0; i < 4; i++){
+                for  (int j = 0; j < 4; j++){
+                    if (!knappar[i][j].getText().equals(String.valueOf(vinstNummer))) {
+                        return;
+                    }
+                    vinstNummer++;
+
+
+                    if (knappar[3][3].getText().equals("")) {
+                        JOptionPane.showMessageDialog(null, "Grattis! Ni Vann!");
+                    }
+                }
+            }
+
+    }
 
 
         //Gör siffrorna till sträng(visar) och 0 till tom knapp
