@@ -141,6 +141,7 @@ public class brädspel extends JFrame {
 
 
         public static void main(String[] args) {
+
             brädspel brädspel = new brädspel();
         }
 
