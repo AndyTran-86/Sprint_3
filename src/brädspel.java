@@ -1,18 +1,26 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class brädspel extends JFrame {
-private ArrayList<Integer> nummer = new ArrayList<Integer>();
-private JButton[][] knappar = new JButton[4][4];
 
+    private ArrayList<Integer> nummer = new ArrayList<Integer>();
+    private JButton[][] knappar = new JButton[4][4];
+
+    private int nollRad;
+    private int nollKolumn;
+
+    //private int senasteRad;
+    //private int senasteKolumn;
 
         public brädspel() {
             //JFrame
             setTitle("Andys 15-pussel spel");
             setSize(500, 500);
             setLayout(new GridLayout(4, 4));
+            setLocationRelativeTo(null);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             läggTillNummer();
@@ -29,9 +37,9 @@ private JButton[][] knappar = new JButton[4][4];
 
             for (int i = 1;
                  i <= 15; i++) {
-                nummer.add(i);
+                 nummer.add(i);
             }
-            nummer.add(0);
+                 nummer.add(0);
 
             //System.out.println("innehållet: " + nummer );
 
@@ -45,7 +53,6 @@ private JButton[][] knappar = new JButton[4][4];
                 nummer.set(j, temp);
             }
             //System.out.println("innehållet: " + nummer );
-
         }
 
 
@@ -58,6 +65,21 @@ private JButton[][] knappar = new JButton[4][4];
 
                     JButton knapp = skapaKnapp(nr);
                     knappar[i][j] = knapp;
+
+                    //hitta 0 knappens position
+                    if (nr == 0){
+                        nollRad = i;
+                        nollKolumn = j;
+
+                        //System.out.println(nollRad + " " + nollKolumn);
+                    }
+
+                    int senasteRad = i;
+                    int senasteKolumn = j;
+                    //lägger till actionListener till knapparna
+                    knapp.addActionListener(e -> {
+                        System.out.println("Knapp nummer " + nr + " är på plats " + senasteRad + ", " + senasteKolumn );
+                    });
 
                     add(knapp);
                 }
