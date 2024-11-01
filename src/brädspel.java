@@ -9,6 +9,14 @@ public class brädspel extends JFrame {
     private ArrayList<Integer> nummer = new ArrayList<Integer>();
     private JButton[][] knappar = new JButton[4][4];
 
+    private JPanel panel = new JPanel(new BorderLayout());
+    private JPanel mitten = new JPanel(new GridLayout(4, 4));
+    private JPanel söder = new JPanel(new GridLayout(1,3));
+
+    private JButton köraOmKnapp = new JButton("Köra om");
+    private JButton avslutaKnapp = new JButton("Avsluta");
+    private JButton ingetKnapp = new JButton(" ");
+
     private int nollRad;
     private int nollKolumn;
 
@@ -19,15 +27,28 @@ public class brädspel extends JFrame {
             //JFrame
             setTitle("Andys 15-pussel spel");
             setSize(500, 500);
-            setLayout(new GridLayout(4, 4));
+            //setLayout(new GridLayout(4, 4));
             setLocationRelativeTo(null);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            söder.add(köraOmKnapp);
+            söder.add(avslutaKnapp);
+            söder.add(ingetKnapp);
+
+            panel.add(mitten, BorderLayout.CENTER);
+            panel.add(söder, BorderLayout.SOUTH);
+
 
             läggTillNummer();
             //System.out.println("innehållet: " + nummer );
 
             läggTillKnappar();
 
+            köraOmKnapp.addActionListener(e -> resetGame());
+            avslutaKnapp.addActionListener(e -> System.exit(0));
+
+
+            add(panel);
             setVisible(true);
         }
 
@@ -56,7 +77,7 @@ public class brädspel extends JFrame {
         }
 
 
-        //Skapa siffrorna/knapparna och lägg till i brädan
+        //Skapa siffrorna/knapparna och lägger till det i brädan
         private void läggTillKnappar() {
             int index = 0;
             for (int i = 0; i < 4; i++) {
@@ -80,7 +101,7 @@ public class brädspel extends JFrame {
                     knapp.addActionListener(e -> {
                         //System.out.println("Knapp nummer " + nr + " är på plats " + senasteRad + ", " + senasteKolumn );
 
-                        //loopar och ser ifall den 0 knappen är bredvid den tryckta knappen
+                        //loopar och ser ifall att 0 knappen är bredvid den tryckta knappen
                         if ((senasteRad == nollRad - 1 && senasteKolumn == nollKolumn) ||
                                 (senasteRad == nollRad + 1 && senasteKolumn == nollKolumn) ||
                                 (senasteRad == nollRad && senasteKolumn == nollKolumn - 1) ||
@@ -94,12 +115,27 @@ public class brädspel extends JFrame {
 
                             nollRad = senasteRad;
                             nollKolumn = senasteKolumn;
+
+
+                            //anropar metoden kontrolleraVinst för att se om man har vunnit efter varje loop/flytt
+                            kontrolleraVinst();
+
+
                         }
                     });
 
-                    add(knapp);
+                    mitten.add(knapp);
                 }
             }
+        }
+
+        private void resetGame(){
+            nummer.clear();
+            läggTillNummer();
+            mitten.removeAll();
+            läggTillKnappar();
+            mitten.revalidate();
+            mitten.repaint();
         }
 
 
@@ -116,7 +152,7 @@ public class brädspel extends JFrame {
 
 
                     if (knappar[3][3].getText().equals("")) {
-                        JOptionPane.showMessageDialog(null, "Grattis! Ni Vann!");
+                        JOptionPane.showMessageDialog(null, "Grattis! Ni har Vunnit!");
                     }
                 }
             }
