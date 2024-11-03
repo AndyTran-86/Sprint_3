@@ -39,6 +39,10 @@ public class brädspel extends JFrame {
         panel.add(mitten, BorderLayout.CENTER);
         panel.add(söder, BorderLayout.SOUTH);
 
+        köraOmKnapp.setBackground(Color.lightGray);
+        avslutaKnapp.setBackground(Color.lightGray);
+        ingetKnapp.setBackground(Color.lightGray);
+
 
         läggTillNummer();
         //System.out.println("innehållet: " + nummer );
@@ -116,30 +120,35 @@ public class brädspel extends JFrame {
 
                 int senasteRad = i;
                 int senasteKolumn = j;
+
+
                 //lägger till actionListener till knapparna
-                knapp.addActionListener(e -> {
-                    //System.out.println("Knapp nummer " + nr + " är på plats " + senasteRad + ", " + senasteKolumn );
+                knapp.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        //System.out.println("Knapp nummer " + nr + " är på plats " + senasteRad + ", " + senasteKolumn );
 
-                    //loopar och ser ifall att 0 knappen är bredvid den tryckta knappen
-                    if ((senasteRad == nollRad - 1 && senasteKolumn == nollKolumn) ||
-                            (senasteRad == nollRad + 1 && senasteKolumn == nollKolumn) ||
-                            (senasteRad == nollRad && senasteKolumn == nollKolumn - 1) ||
-                            (senasteRad == nollRad && senasteKolumn == nollKolumn + 1)) {
+                        //loopar och ser ifall att 0 knappen är bredvid den tryckta knappen
+                        if ((senasteRad == nollRad - 1 && senasteKolumn == nollKolumn) ||
+                                (senasteRad == nollRad + 1 && senasteKolumn == nollKolumn) ||
+                                (senasteRad == nollRad && senasteKolumn == nollKolumn - 1) ||
+                                (senasteRad == nollRad && senasteKolumn == nollKolumn + 1)) {
 
-                        knappar[nollRad][nollKolumn].setText(knapp.getText());
-                        knappar[nollRad][nollKolumn].setEnabled(true);
+                            knappar[nollRad][nollKolumn].setText(knapp.getText());
+                            knappar[nollRad][nollKolumn].setEnabled(true);
 
-                        knapp.setText("");
-                        knapp.setEnabled(false);
+                            knapp.setText("");
+                            knapp.setEnabled(false);
 
-                        nollRad = senasteRad;
-                        nollKolumn = senasteKolumn;
-
-
-                        //anropar metoden kontrolleraVinst för att se om man har vunnit efter varje loop/flytt
-                        kontrolleraVinst();
+                            nollRad = senasteRad;
+                            nollKolumn = senasteKolumn;
 
 
+                            //anropar metoden kontrolleraVinst för att se om man har vunnit efter varje loop/flytt
+                            kontrolleraVinst();
+
+
+                        }
                     }
                 });
 
@@ -205,6 +214,7 @@ public class brädspel extends JFrame {
                 if (knappar[3][3].getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Grattis! Ni har Vunnit!");
 
+                    //anropar metoden resetGame när man trycker ok
                     resetGame();
                 }
             }
