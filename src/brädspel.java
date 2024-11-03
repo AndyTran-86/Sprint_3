@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class brädspel extends JFrame {
 
+
+public class brädspel extends JFrame {
 
     private ArrayList<Integer> nummer = new ArrayList<Integer>();
     private JButton[][] knappar = new JButton[4][4];
@@ -26,6 +27,7 @@ public class brädspel extends JFrame {
 
     //private int senasteRad;
     //private int senasteKolumn;
+
 
 
 
@@ -52,7 +54,6 @@ public class brädspel extends JFrame {
 
         läggTillNummer();
         //System.out.println("innehållet: " + nummer );
-
         läggTillKnappar();
 
 
@@ -81,7 +82,9 @@ public class brädspel extends JFrame {
         setVisible(true);
     }
 
-    ////////////////////////////////////////////////////
+
+
+
     //Skapa en array med nummer mellan 1-15 och en 0.
     private void läggTillNummer() {
 
@@ -93,7 +96,8 @@ public class brädspel extends JFrame {
         //System.out.println("innehållet: " + nummer );
 
 
-        //Slumpa siffrorna/knapparna i arrayn
+        //Slumpa siffrorna/knapparna i arrayn, baklänges loop som slutar vid 1
+        //slumpar (j) och lagrar (i) i temp, byter (i)'s värde med (j) och (j) tar från temp(i)
         Random slumpa = new Random();
         for (int i = nummer.size() - 1; i > 0; i--) {
             int j = slumpa.nextInt(i + 1);
@@ -105,8 +109,14 @@ public class brädspel extends JFrame {
     }
 
 
+
+
+
     //Skapa siffrorna/knapparna och lägger till det i brädan
     private void läggTillKnappar() {
+
+        //skapar knapparna genom att gå igenom listan av nummerna
+        //sedan placeras nummerna med text ut i varje rutnät [3][3]
         int index = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -122,6 +132,7 @@ public class brädspel extends JFrame {
                     //System.out.println(nollRad + " " + nollKolumn);
                 }
 
+                //för att hålla reda på knapparnas position och använda de i actionlistener
                 int senasteRad = i;
                 int senasteKolumn = j;
 
@@ -164,7 +175,9 @@ public class brädspel extends JFrame {
         }
     }
 
-////////////////////////////////////////////////////
+
+
+
 
     //tömmer listan, lägger till nummer, tömmer knapparna, lägger till knappar, uppdatera komponenterna samt ritar om panelerna
     private void resetGame() {
@@ -178,10 +191,14 @@ public class brädspel extends JFrame {
         mitten.repaint();
     }
 
+
+
+
     //metod som arrangerar knapparna så att det bara krävs ett drag till att klara spelet
     private void nästanRätt() {
-        nummer.clear();
 
+        //rensar nummerna. lägger in nummerna utan att Random:a så det blir i rätt ordning
+        nummer.clear();
         for (int i = 1; i <= 15; i++) {
             nummer.add(i);
         }
@@ -198,27 +215,30 @@ public class brädspel extends JFrame {
 
         mitten.revalidate();
         mitten.repaint();
-
     }
+
+
+
 
     //metod för att kontrollera vinst
     private void kontrolleraVinst() {
-        int vinstNummer = 1;
 
+        //börjar på 1 för alla 15 nr ska vara rätt, loopar genom hela rutnätet [i][j]
+        int vinstNummer = 1;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                if (i == 3 && j == 3) {
+                if (i == 3 && j == 3) {         //om alla nummer är rätt så och kommit till den sista i,j = 3 fortsätter loopen till nästa
                     continue;
                 }
 
-
+                //om knapparna inte stämmer överens så slutar loopen och returneras
                 if (!knappar[i][j].getText().equals(String.valueOf(vinstNummer))) {
                     return;
                 }
                 vinstNummer++;
             }
             }
-
+                //om alla knappar är rätt och den sista är ""/tom så har man vunnit
                 if (knappar[3][3].getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Grattis! Ni har Vunnit!");
 
@@ -227,19 +247,25 @@ public class brädspel extends JFrame {
                 }
             }
 
-////////////////////////////////////////////////////
+
+
 
         //Gör siffrorna till sträng(visar) och 0 till tom knapp
         private JButton skapaKnapp(int nr) {
-            JButton knapp = new JButton(nr == 0 ? "" : String.valueOf(nr));
+            JButton knapp = new JButton();
 
             if (nr == 0){
+                knapp.setText("");
                 knapp.setEnabled(false);
+            } else {
+                knapp.setText(String.valueOf(nr));
             }
             return knapp;
         }
 
+
 ////////////////////////////////////////////////////
+
 
         public static void main(String[] args) {
 
