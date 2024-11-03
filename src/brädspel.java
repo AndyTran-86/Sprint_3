@@ -5,7 +5,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+
 public class brädspel extends JFrame {
+
 
     private ArrayList<Integer> nummer = new ArrayList<Integer>();
     private JButton[][] knappar = new JButton[4][4];
@@ -18,11 +20,15 @@ public class brädspel extends JFrame {
     private JButton avslutaKnapp = new JButton("Avsluta");
     private JButton ingetKnapp = new JButton(" ");
 
+    //variabler för att hålla reda på 0 knappens position
     private int nollRad;
     private int nollKolumn;
 
     //private int senasteRad;
     //private int senasteKolumn;
+
+
+
 
     public brädspel() {
         //JFrame
@@ -76,7 +82,7 @@ public class brädspel extends JFrame {
     }
 
     ////////////////////////////////////////////////////
-    //Skapa en array med nummer och en 0.
+    //Skapa en array med nummer mellan 1-15 och en 0.
     private void läggTillNummer() {
 
         for (int i = 1;
@@ -84,7 +90,6 @@ public class brädspel extends JFrame {
             nummer.add(i);
         }
         nummer.add(0);
-
         //System.out.println("innehållet: " + nummer );
 
 
@@ -114,7 +119,6 @@ public class brädspel extends JFrame {
                 if (nr == 0) {
                     nollRad = i;
                     nollKolumn = j;
-
                     //System.out.println(nollRad + " " + nollKolumn);
                 }
 
@@ -129,17 +133,20 @@ public class brädspel extends JFrame {
                         //System.out.println("Knapp nummer " + nr + " är på plats " + senasteRad + ", " + senasteKolumn );
 
                         //loopar och ser ifall att 0 knappen är bredvid den tryckta knappen
-                        if ((senasteRad == nollRad - 1 && senasteKolumn == nollKolumn) ||
-                                (senasteRad == nollRad + 1 && senasteKolumn == nollKolumn) ||
-                                (senasteRad == nollRad && senasteKolumn == nollKolumn - 1) ||
-                                (senasteRad == nollRad && senasteKolumn == nollKolumn + 1)) {
+                        if ((senasteRad == nollRad - 1 && senasteKolumn == nollKolumn) || // Samma kolumn men -1 rad allstå : ovanför
+                                (senasteRad == nollRad + 1 && senasteKolumn == nollKolumn) || // Samma kolumn men +1 rad alltså : under
+                                (senasteRad == nollRad && senasteKolumn == nollKolumn - 1) || // Samma rad men -1 kolumn alltså : vänster
+                                (senasteRad == nollRad && senasteKolumn == nollKolumn + 1)) { // Samma rad men +1 kolumn alltså : höger
 
+                            //om någon av ovanför stämmer så ändra texten på 0:an till den tryckta knappens text och ändra enable till TRUE
                             knappar[nollRad][nollKolumn].setText(knapp.getText());
                             knappar[nollRad][nollKolumn].setEnabled(true);
 
+                            //och ändra tryckta knappen till ""/tom och enable FALSE
                             knapp.setText("");
                             knapp.setEnabled(false);
 
+                            //uppdatera 0:ans position
                             nollRad = senasteRad;
                             nollKolumn = senasteKolumn;
 
@@ -159,6 +166,7 @@ public class brädspel extends JFrame {
 
 ////////////////////////////////////////////////////
 
+    //tömmer listan, lägger till nummer, tömmer knapparna, lägger till knappar, uppdatera komponenterna samt ritar om panelerna
     private void resetGame() {
         nummer.clear();
         läggTillNummer();
@@ -170,7 +178,7 @@ public class brädspel extends JFrame {
         mitten.repaint();
     }
 
-
+    //metod som arrangerar knapparna så att det bara krävs ett drag till att klara spelet
     private void nästanRätt() {
         nummer.clear();
 
