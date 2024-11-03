@@ -116,7 +116,7 @@ public class brädspel extends JFrame {
     private void läggTillKnappar() {
 
         //skapar knapparna genom att gå igenom listan av nummerna
-        //sedan placeras nummerna med text ut i varje rutnät [3][3]
+        //sedan placeras nummerna ut i varje rutnät [3][3]
         int index = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
